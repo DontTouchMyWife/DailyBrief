@@ -61,8 +61,9 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # --- create repo if needed ---
-$remote = & git remote get-url origin 2>$null
-if (-not $?) { $remote = $null }
+$ErrorActionPreference = 'SilentlyContinue'
+$remote = git remote get-url origin
+$ErrorActionPreference = 'Stop'
 if (-not $remote) {
   gh repo create $RepoName --$Visibility --source=. --remote=origin --push
 } else {
